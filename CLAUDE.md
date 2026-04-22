@@ -17,7 +17,12 @@ Pulsen tellen, flow rate berekenen in L/min, totaal volume in Liter.
 - [x] Testen — werkende sketch op GPIO7 (D5), getest en gepusht
 
 ## Volgende stap
-WiFi webserver toevoegen zodat flow en totaal zichtbaar zijn op Android via browser.
+Integratie in LoRa systeem.
 
 ## Toekomst
-Integratie in LoRa systeem.
+Verder uitbreiden met dataopslag, grafieken of MQTT.
+
+## Notities
+- WiFi Access Point werkend: XIAO maakt netwerk "WaterMeter" aan (wachtwoord: water123)
+- Webpagina bereikbaar op http://192.168.4.1, ververst elke 5 seconden
+- Android tip: zet "automatisch opnieuw verbinden" uit voor mobiele data, anders valt Android terug op 4G en is de pagina niet bereikbaar
