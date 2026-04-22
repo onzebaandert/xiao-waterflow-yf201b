@@ -20,7 +20,9 @@ Pulsen tellen, flow rate berekenen in L/min, totaal volume in Liter.
 Integratie in LoRa systeem.
 
 ## Toekomst
-Verder uitbreiden met dataopslag, grafieken of MQTT.
+- Integratie in LoRa systeem
+- Dataopslag, uitgebreidere grafieken of MQTT
+- ESP-NOW netwerk met meerdere watermeters: elke meter stuurt data naar een centrale XIAO die als webserver fungeert — weergave op een oude Android mobiel voor tuinders
 
 ## Notities
 - WiFi Access Point werkend: XIAO maakt netwerk "WaterMeter" aan (wachtwoord: water123)
