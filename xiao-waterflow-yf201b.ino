@@ -17,7 +17,6 @@ float totalLiters   = 0.0f;
 float flowRate      = 0.0f;
 uint32_t lastTime   = 0;
 uint32_t lastGraphTime = 0;
-float lastSavedTotal   = 0.0f;
 
 float   graphData[GRAPH_POINTS] = {0};
 uint8_t graphHead  = 0;   // volgende schrijfpositie
@@ -69,7 +68,7 @@ void handleRoot() {
     "<div class='lbl'>Totaal</div></div>"
     "<br><div class='chart-wrap'>"
     "<canvas id='c' width='400' height='200'></canvas></div>"
-    "<p style='color:#aaa;font-size:.8em'>Grafiek: verbruik per 5 min (laatste 2 uur) &bull; pagina ververst elke 5s</p>"
+    "<p style='color:#aaa;font-size:.8em'>Grafiek: cumulatief totaal per 5 min (laatste 2 uur) &bull; pagina ververst elke 5s</p>"
     "<script>"
     "var d=" + jsData + ";"
     "var cv=document.getElementById('c'),ctx=cv.getContext('2d');"
@@ -101,7 +100,7 @@ void handleRoot() {
     "ctx.strokeStyle='#888';ctx.lineWidth=1;ctx.beginPath();"
     "ctx.moveTo(pad,pad);ctx.lineTo(pad,h-pad);ctx.lineTo(w-pad,h-pad);ctx.stroke();"
     "ctx.fillStyle='#555';ctx.font='11px sans-serif';ctx.textAlign='center';"
-    "ctx.fillText('L per 5 min',w/2,h-4);"
+    "ctx.fillText('L totaal',w/2,h-4);"
     "</script>"
     "</body></html>";
 
@@ -117,7 +116,6 @@ void setup() {
   prefs.begin("waterflow", true);
   totalLiters = prefs.getFloat("total", 0.0f);
   prefs.end();
-  lastSavedTotal = totalLiters;
   Serial.printf("Totaal hersteld uit NVS: %.2f L\n", totalLiters);
 
   lastTime      = millis();
@@ -156,13 +154,11 @@ void loop() {
 
   // Grafiekpunt opslaan + NVS bijwerken elke 5 minuten
   if (now - lastGraphTime >= GRAPH_INTERVAL_MS) {
-    float delta = totalLiters - lastSavedTotal;
-    graphData[graphHead] = delta;
+    graphData[graphHead] = totalLiters;
     graphHead = (graphHead + 1) % GRAPH_POINTS;
     if (graphCount < GRAPH_POINTS) graphCount++;
-    lastSavedTotal = totalLiters;
-    lastGraphTime  = now;
+    lastGraphTime = now;
     saveTotal();
-    Serial.printf("Grafiekpunt: %.3f L | NVS opgeslagen: %.2f L totaal\n", delta, totalLiters);
+    Serial.printf("Grafiekpunt: %.2f L totaal | NVS opgeslagen\n", totalLiters);
   }
 }
